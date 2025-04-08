@@ -3,61 +3,17 @@ document.addEventListener("DOMContentLoaded", function () {
   const database = firebase.database();
 
   const data = [
-    "Batedeira",
-    "Liquidificador",
-    "Cafeteira",
-    "Torradeira",
-    "Jogo de lençóis",
-    "Jogo de lençóis",
-    "Travesseiros",
-    "Jogo de panela",
-    "Fronhas avulsas",
-    "Jogo de jantar",
-    "Jogo de facas",
-    "Jogo de talheres",
-    "Varal de chão",
-    "Jogo de toalhas",
-    "Microondas",
-    "Forno eletrônico",
-    "Cesto de roupa",
-    "Assadeiras (vidro)",
-    "Edredom",
-    "Cobre leito",
-    "Potes herméticos (vidro)",
-    "Jogo de taças",
-    "Petisqueira",
-    "Potes para mantimentos",
-    "Galheteiros",
-    "Açucareiro",
-    "Saleiro",
-    "Jogo de sobremesa",
-    "Lixeira (cozinha)",
-    "Escorredor de louça",
-    "Ferro de passar roupas",
-    "Chaleira",
-    "Jarra elétrica",
-    "Panos de copa",
-    "Porta frios",
-    "Ralador",
-    "Porta temperos",
-    "Mixer",
-    "Tigelas",
-    "Tapete bolinha para banheiro",
-    "Ventilador",
-    "Tábua de cortes",
-    "Boleira",
-    "Escorredor de macarrão",
-    "Manteigueira",
-    "Organizador de salada",
-    "Garrafa térmica",
-    "Forma de alumínio",
-    "Jogo americano",
-    "Tábua de passar roupa",
-    "Mop",
-    "Cuia",
-    "Descanso de panelas",
-    "Triturador",
-    "Organizador de talheres"
+    "Batedeira", "Liquidificador", "Cafeteira", "Torradeira", "Jogo de lençóis",
+    "Jogo de lençóis", "Travesseiros", "Jogo de panela", "Fronhas avulsas", "Jogo de jantar",
+    "Jogo de facas", "Jogo de talheres", "Varal de chão", "Jogo de toalhas", "Microondas",
+    "Forno eletrônico", "Cesto de roupa", "Assadeiras (vidro)", "Edredom", "Cobre leito",
+    "Potes herméticos (vidro)", "Jogo de taças", "Petisqueira", "Potes para mantimentos", "Galheteiros",
+    "Açucareiro", "Saleiro", "Jogo de sobremesa", "Lixeira (cozinha)", "Escorredor de louça",
+    "Ferro de passar roupas", "Chaleira", "Jarra elétrica", "Panos de copa", "Porta frios",
+    "Ralador", "Porta temperos", "Mixer", "Tigelas", "Tapete bolinha para banheiro",
+    "Ventilador", "Tábua de cortes", "Boleira", "Escorredor de macarrão", "Manteigueira",
+    "Organizador de salada", "Garrafa térmica", "Forma de alumínio", "Jogo americano",
+    "Tábua de passar roupa", "Mop", "Cuia", "Descanso de panelas", "Triturador", "Organizador de talheres"
   ];
 
   data.forEach((item, index) => {
@@ -75,12 +31,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const reservarBtn = li.querySelector(".reservar");
     const editarBtn = li.querySelector(".editar");
     const reservadoPor = li.querySelector(".reservado-por");
-
     const itemRef = database.ref("reservas/" + index);
 
     itemRef.on("value", (snapshot) => {
       const valor = snapshot.val();
-      if (valor) {
+      if (valor && valor.nome) {
         input.value = valor.nome;
         input.disabled = true;
         reservarBtn.style.display = "none";
@@ -98,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
     reservarBtn.addEventListener("click", () => {
       const nome = input.value.trim();
       if (nome !== "") {
-        itemRef.set({ nome: nome });
+        itemRef.set({ nome });
       }
     });
 
@@ -106,10 +61,11 @@ document.addEventListener("DOMContentLoaded", function () {
       input.disabled = false;
       input.focus();
       editarBtn.textContent = "Salvar";
+
       editarBtn.onclick = () => {
-        const nomeEditado = input.value.trim();
-        if (nomeEditado !== "") {
-          itemRef.set({ nome: nomeEditado });
+        const novoNome = input.value.trim();
+        if (novoNome !== "") {
+          itemRef.set({ nome: novoNome });
           input.disabled = true;
           editarBtn.textContent = "Editar";
         }
