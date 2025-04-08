@@ -94,3 +94,4 @@ onValue(ref(database, "reservas"), (snapshot) => {
   const data = snapshot.val() || {};
   renderizarLista(data);
 });
+carregarLista();
