@@ -1,102 +1,110 @@
-@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Roboto&display=swap');
-
-body {
+/* Reset básico */
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+body {
   font-family: 'Roboto', sans-serif;
-  background: linear-gradient(to bottom, #1c1c1c, #2e2e2e);
-  color: #fff;
+  background: linear-gradient(to bottom, #1f1f1f, #2c2c2c);
+  color: #ffffff;
+  padding: 20px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 60px;
 }
 
-h1, h2 {
-  text-align: center;
-  margin-top: 20px;
-  margin-bottom: 10px;
-  font-family: 'Great Vibes', cursive;
-  font-size: 2.2em;
-  color: #ffcccc;
-}
-
-p {
-  font-size: 1.2em;
+header {
   text-align: center;
   margin-bottom: 30px;
 }
 
-.container {
-  width: 90%;
-  max-width: 800px;
-  background-color: #2a2a2a;
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+header h1 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+
+header p {
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.5rem;
+  color: #d9d9d9;
+  margin-bottom: 10px;
+}
+
+.frase-thorin {
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.4rem;
+  color: #cccccc;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.lista-presentes {
+  width: 100%;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 40px;
 }
 
 .item {
-  background-color: #3a3a3a;
+  background: #2f2f2f;
   border: 1px solid #444;
-  border-radius: 10px;
-  padding: 15px;
-  margin-bottom: 15px;
+  border-radius: 15px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-.item strong {
-  font-size: 1.2em;
+.item h3 {
+  font-size: 1.2rem;
+  color: #ffffff;
+}
+
+.item input[type="text"] {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  background: #1c1c1c;
   color: #fff;
 }
 
-input[type="text"] {
-  padding: 10px;
-  margin-top: 8px;
-  margin-bottom: 8px;
+.item button {
+  padding: 10px 15px;
   border: none;
-  border-radius: 8px;
-  background-color: #222;
+  border-radius: 10px;
+  background: linear-gradient(to right, #555, #888);
   color: #fff;
-  width: 100%;
-}
-
-button {
-  padding: 10px;
-  border: none;
-  border-radius: 8px;
-  background: linear-gradient(to right, #999, #ccc);
-  color: #000;
+  font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
-  margin-top: 8px;
+  transition: opacity 0.3s ease;
   font-family: 'Roboto', sans-serif;
 }
 
-button:hover {
-  background: linear-gradient(to right, #bbb, #ddd);
+.item button:hover {
+  opacity: 0.85;
 }
 
-.reservado {
-  background-color: #444;
-  border: 1px solid #666;
-}
-
-.reservado strong {
-  color: #ddd;
-}
-
-footer {
-  text-align: center;
-  margin-top: auto;
-  padding: 15px;
-  font-size: 1em;
-  color: #ccc;
+.item .reservado {
+  color: #aaa;
   font-style: italic;
 }
 
-footer span {
-  color: red;
+footer {
+  margin-top: auto;
+  text-align: center;
+  font-size: 1rem;
+  color: #bbbbbb;
+  padding: 20px 0;
+  font-family: 'Great Vibes', cursive;
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Roboto&display=swap');
