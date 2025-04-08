@@ -1,11 +1,9 @@
-
-// Substitua com os dados do seu projeto Firebase
-export const firebaseConfig = {
-  apiKey: "SUA_CHAVE_AQUI",
-  authDomain: "SEU_DOMINIO.firebaseapp.com",
-  databaseURL: "https://SEU_PROJETO.firebaseio.com",
-  projectId: "SEU_ID",
-  storageBucket: "SEU_BUCKET",
-  messagingSenderId: "ID",
-  appId: "SEU_APP_ID"
+const firebaseConfig = {
+  apiKey: "AIzaSyAzQSqbRcIyhnDhCo0wPMM3IRFYPJbBrB8",
+  authDomain: "lista-cha.firebaseapp.com",
+  databaseURL: "https://lista-cha-default-rtdb.firebaseio.com",
+  projectId: "lista-cha",
+  storageBucket: "lista-cha.firebasestorage.app",
+  messagingSenderId: "662121713326",
+  appId: "1:662121713326:web:e5a2d5291085dcfb0ae73f"
 };
