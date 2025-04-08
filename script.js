@@ -1,6 +1,11 @@
-// === Firebase Configuração ===
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+import { initializeApp } from "firebase/app";
+import {
+  getDatabase,
+  ref,
+  onValue,
+  set,
+  update,
+} from "firebase/database";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAzQSqbRcIyhnDhCo0wPMM3IRFYPJbBrB8",
@@ -14,119 +19,75 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
-const listaRef = ref(db, 'itens');
 
-// === Lista de Presentes ===
-const itens = [
-  "Batedeira",
-  "Liquidificador",
-  "Cafeteira",
-  "Torradeira",
-  "Jogo de lençóis",
-  "Jogo de lençóis 2",
-  "Travesseiros",
-  "Jogo de panela",
-  "Fronhas avulsas",
-  "Jogo de jantar",
-  "Jogo de facas",
-  "Jogo de talheres",
-  "Varal de chão",
-  "Jogo de toalhas",
-  "Microondas",
-  "Forno eletrônico",
-  "Cesto de roupa",
-  "Assadeiras (vidro)",
-  "Edredom",
-  "Cobre leito",
-  "Potes herméticos (vidro)",
-  "Jogo de taças",
-  "Petisqueira",
-  "Potes para mantimentos",
-  "Galheteiros",
-  "Açucareiro",
-  "Saleiro",
-  "Jogo de sobremesa",
-  "Lixeira (cozinha)",
-  "Escorredor de louça",
-  "Ferro de passar roupas",
-  "Chaleira",
-  "Jarra elétrica",
-  "Panos de copa",
-  "Porta frios",
-  "Ralador",
-  "Porta temperos",
-  "Mixer",
-  "Tigelas",
-  "Tapete bolinha para banheiro",
-  "Ventilador",
-  "Tábua de cortes",
-  "Boleira",
-  "Escorredor de macarrão",
-  "Manteigueira",
-  "Organizador de salada",
-  "Garrafa térmica",
-  "Forma de alumínio",
-  "Jogo americano",
-  "Tábua de passar roupa",
-  "Mop",
-  "Cuia",
-  "Descanso de panelas",
-  "Triturador",
-  "Organizador de talheres"
+const listaPresentes = [
+  "Batedeira", "Liquidificador", "Cafeteira", "Torradeira", "Jogo de lençóis",
+  "Jogo de lençóis", "Travesseiros", "Jogo de panela", "Fronhas avulsas", "Jogo de jantar",
+  "Jogo de facas", "Jogo de talheres", "Varal de chão", "Jogo de toalhas", "Microondas",
+  "Forno eletrônico", "Cesto de roupa", "Assadeiras (vidro)", "Edredom", "Cobre leito",
+  "Potes herméticos (vidro)", "Jogo de taças", "Petisqueira", "Potes para mantimentos", "Galheteiros",
+  "Açucareiro", "Saleiro", "Jogo de sobremesa", "Lixeira (cozinha)", "Escorredor de louça",
+  "Ferro de passar roupas", "Chaleira", "Jarra elétrica", "Panos de copa", "Porta frios",
+  "Ralador", "Porta temperos", "Mixer", "Tigelas", "Tapete bolinha para banheiro",
+  "Ventilador", "Tábua de cortes", "Boleira", "Escorredor de macarrão", "Manteigueira",
+  "Organizador de salada", "Garrafa térmica", "Forma de alumínio", "Jogo americano", "Tábua de passar roupa",
+  "Mop", "Cuia", "Descanso de panelas", "Triturador", "Organizador de talheres"
 ];
 
-// === Carregar HTML ===
 const listaContainer = document.getElementById("lista");
 
-function renderLista(reservas = {}) {
+function criarItem(nomeItem, reservadoPor = "") {
+  const li = document.createElement("li");
+  li.className = reservadoPor ? "reservado" : "";
+
+  const span = document.createElement("span");
+  span.textContent = `${nomeItem} ${reservadoPor ? ` - Reservado por: ${reservadoPor}` : ""}`;
+  li.appendChild(span);
+
+  const input = document.createElement("input");
+  input.type = "text";
+  input.placeholder = "Seu nome";
+  input.value = reservadoPor;
+  input.disabled = !!reservadoPor;
+  li.appendChild(input);
+
+  const botao = document.createElement("button");
+  botao.textContent = reservadoPor ? "Editar" : "Reservar";
+  li.appendChild(botao);
+
+  botao.addEventListener("click", () => {
+    const nomeDigitado = input.value.trim();
+    const itemRef = ref(db, `reservas/${nomeItem}`);
+
+    if (botao.textContent === "Reservar") {
+      if (!nomeDigitado) return alert("Por favor, digite seu nome.");
+      set(itemRef, nomeDigitado);
+    } else if (botao.textContent === "Editar") {
+      input.disabled = false;
+      botao.textContent = "Salvar";
+    } else if (botao.textContent === "Salvar") {
+      if (!nomeDigitado) return alert("Por favor, digite seu nome.");
+      update(itemRef, nomeDigitado).then(() => {
+        input.disabled = true;
+        botao.textContent = "Editar";
+      });
+    }
+  });
+
+  listaContainer.appendChild(li);
+}
+
+function carregarLista(reservas) {
   listaContainer.innerHTML = "";
-
-  itens.forEach((item) => {
-    const nomeReservado = reservas[item] || "";
-    const reservado = nomeReservado.trim() !== "";
-
-    const div = document.createElement("div");
-    div.className = "item";
-
-    const h3 = document.createElement("h3");
-    h3.textContent = item;
-    div.appendChild(h3);
-
-    const input = document.createElement("input");
-    input.type = "text";
-    input.placeholder = reservado ? "Reservado por: " + nomeReservado : "Digite seu nome";
-    input.value = reservado ? nomeReservado : "";
-    input.disabled = reservado;
-    div.appendChild(input);
-
-    const botao = document.createElement("button");
-    botao.textContent = reservado ? "Editar" : "Reservar";
-
-    botao.addEventListener("click", () => {
-      if (reservado && botao.textContent === "Editar") {
-        input.disabled = false;
-        input.focus();
-        botao.textContent = "Salvar";
-      } else if (botao.textContent === "Salvar" || !reservado) {
-        const nome = input.value.trim();
-        if (nome === "") {
-          alert("Por favor, insira um nome para reservar.");
-          return;
-        }
-        set(ref(db, `itens/${item}`), nome).then(() => {
-          input.disabled = true;
-          botao.textContent = "Editar";
-        });
-      }
-    });
-
-    div.appendChild(botao);
-    listaContainer.appendChild(div);
+  listaPresentes.forEach((item, index) => {
+    // Se houver item repetido, adiciona número ao final
+    const chaveItem = listaPresentes.indexOf(item) !== index ? `${item} ${index + 1}` : item;
+    criarItem(item, reservas?.[chaveItem] || "");
   });
 }
 
-onValue(listaRef, (snapshot) => {
-  const data = snapshot.val() || {};
-  renderLista(data);
+const reservasRef = ref(db, "reservas");
+onValue(reservasRef, (snapshot) => {
+  const data = snapshot.val();
+  carregarLista(data);
 });
-
