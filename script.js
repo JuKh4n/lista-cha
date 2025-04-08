@@ -49,7 +49,7 @@ const itens = [
   "Forma de alumínio",
   "Jogo americano",
   "Tábua de passar roupa",
-  "Mop",
+  "Mop Spray",
   "Cuia",
   "Descanso de panelas",
   "Triturador",
