@@ -1,5 +1,6 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
+// === Firebase Configuração ===
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAzQSqbRcIyhnDhCo0wPMM3IRFYPJbBrB8",
@@ -12,86 +13,120 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
+const db = getDatabase(app);
+const listaRef = ref(db, 'itens');
 
-const listaPresentes = [
-  "Batedeira", "Liquidificador", "Cafeteira", "Torradeira",
-  "Jogo de lençóis", "Jogo de lençóis", "Travesseiros", "Jogo de panela",
-  "Fronhas avulsas", "Jogo de jantar", "Jogo de facas", "Jogo de talheres",
-  "Varal de chão", "Jogo de toalhas", "Microondas", "Forno eletrônico",
-  "Cesto de roupa", "Assadeiras (vidro)", "Edredom", "Cobre leito",
-  "Potes herméticos (vidro)", "Jogo de taças", "Petisqueira", "Potes para mantimentos",
-  "Galheteiros", "Açucareiro", "Saleiro", "Jogo de sobremesa",
-  "Lixeira (cozinha)", "Escorredor de louça", "Ferro de passar roupas", "Chaleira",
-  "Jarra elétrica", "Panos de copa", "Porta frios", "Ralador",
-  "Porta temperos", "Mixer", "Tigelas", "Tapete bolinha para banheiro",
-  "Ventilador", "Tábua de cortes", "Boleira", "Escorredor de macarrão",
-  "Manteigueira", "Organizador de salada", "Garrafa térmica", "Forma de alumínio",
-  "Jogo americano", "Tábua de passar roupa", "Mop", "Cuia",
-  "Descanso de panelas", "Triturador", "Organizador de talheres"
+// === Lista de Presentes ===
+const itens = [
+  "Batedeira",
+  "Liquidificador",
+  "Cafeteira",
+  "Torradeira",
+  "Jogo de lençóis",
+  "Jogo de lençóis 2",
+  "Travesseiros",
+  "Jogo de panela",
+  "Fronhas avulsas",
+  "Jogo de jantar",
+  "Jogo de facas",
+  "Jogo de talheres",
+  "Varal de chão",
+  "Jogo de toalhas",
+  "Microondas",
+  "Forno eletrônico",
+  "Cesto de roupa",
+  "Assadeiras (vidro)",
+  "Edredom",
+  "Cobre leito",
+  "Potes herméticos (vidro)",
+  "Jogo de taças",
+  "Petisqueira",
+  "Potes para mantimentos",
+  "Galheteiros",
+  "Açucareiro",
+  "Saleiro",
+  "Jogo de sobremesa",
+  "Lixeira (cozinha)",
+  "Escorredor de louça",
+  "Ferro de passar roupas",
+  "Chaleira",
+  "Jarra elétrica",
+  "Panos de copa",
+  "Porta frios",
+  "Ralador",
+  "Porta temperos",
+  "Mixer",
+  "Tigelas",
+  "Tapete bolinha para banheiro",
+  "Ventilador",
+  "Tábua de cortes",
+  "Boleira",
+  "Escorredor de macarrão",
+  "Manteigueira",
+  "Organizador de salada",
+  "Garrafa térmica",
+  "Forma de alumínio",
+  "Jogo americano",
+  "Tábua de passar roupa",
+  "Mop",
+  "Cuia",
+  "Descanso de panelas",
+  "Triturador",
+  "Organizador de talheres"
 ];
 
+// === Carregar HTML ===
 const listaContainer = document.getElementById("lista");
 
-function renderizarLista(dadosReservas = {}) {
+function renderLista(reservas = {}) {
   listaContainer.innerHTML = "";
 
-  listaPresentes.forEach((item, index) => {
-    const reserva = dadosReservas[index] || {};
-    const reservado = reserva.nome && reserva.nome.trim() !== "";
+  itens.forEach((item) => {
+    const nomeReservado = reservas[item] || "";
+    const reservado = nomeReservado.trim() !== "";
 
-    const itemDiv = document.createElement("div");
-    itemDiv.className = "item";
+    const div = document.createElement("div");
+    div.className = "item";
 
-    const nomeItem = document.createElement("span");
-    nomeItem.textContent = item;
-    nomeItem.className = "item-nome";
+    const h3 = document.createElement("h3");
+    h3.textContent = item;
+    div.appendChild(h3);
 
-    const inputNome = document.createElement("input");
-    inputNome.type = "text";
-    inputNome.placeholder = "Seu nome";
-    inputNome.value = reserva.nome || "";
-    inputNome.disabled = reservado;
+    const input = document.createElement("input");
+    input.type = "text";
+    input.placeholder = reservado ? "Reservado por: " + nomeReservado : "Digite seu nome";
+    input.value = reservado ? nomeReservado : "";
+    input.disabled = reservado;
+    div.appendChild(input);
 
     const botao = document.createElement("button");
     botao.textContent = reservado ? "Editar" : "Reservar";
 
     botao.addEventListener("click", () => {
-      if (reservado) {
-        inputNome.disabled = false;
+      if (reservado && botao.textContent === "Editar") {
+        input.disabled = false;
+        input.focus();
         botao.textContent = "Salvar";
-        reservado = false;
-      } else if (botao.textContent === "Salvar") {
-        const nome = inputNome.value.trim();
+      } else if (botao.textContent === "Salvar" || !reservado) {
+        const nome = input.value.trim();
         if (nome === "") {
-          alert("Por favor, digite seu nome para reservar.");
+          alert("Por favor, insira um nome para reservar.");
           return;
         }
-        set(ref(database, "reservas/" + index), { nome });
-        inputNome.disabled = true;
-        botao.textContent = "Editar";
-      } else {
-        const nome = inputNome.value.trim();
-        if (nome === "") {
-          alert("Por favor, digite seu nome para reservar.");
-          return;
-        }
-        set(ref(database, "reservas/" + index), { nome });
-        inputNome.disabled = true;
-        botao.textContent = "Editar";
+        set(ref(db, `itens/${item}`), nome).then(() => {
+          input.disabled = true;
+          botao.textContent = "Editar";
+        });
       }
     });
 
-    itemDiv.appendChild(nomeItem);
-    itemDiv.appendChild(inputNome);
-    itemDiv.appendChild(botao);
-    listaContainer.appendChild(itemDiv);
+    div.appendChild(botao);
+    listaContainer.appendChild(div);
   });
 }
 
-// Escuta o Firebase e atualiza a lista em tempo real
-onValue(ref(database, "reservas"), (snapshot) => {
+onValue(listaRef, (snapshot) => {
   const data = snapshot.val() || {};
-  renderizarLista(data);
+  renderLista(data);
 });
-carregarLista();
+
