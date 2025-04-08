@@ -1,75 +1,107 @@
-/* Fundo com degradê escuro e elegante */
 body {
   margin: 0;
-  font-family: 'Georgia', serif;
-  background: linear-gradient(to bottom, #1a1a1a, #2e2e2e);
-  color: #f2f2f2;
-  min-height: 100vh;
-}
-
-/* Cabeçalho com frase do noivado */
-header {
-  text-align: center;
-  padding: 2rem 1rem 1rem;
-  font-family: 'Playfair Display', serif;
-  font-size: 1.4rem;
-  color: #e0d7c6;
-  border-bottom: 1px solid #444;
-  margin-bottom: 1rem;
-}
-
-/* Estilização da lista */
-ul {
-  list-style: none;
   padding: 0;
+  font-family: 'Playfair Display', serif;
+  background: linear-gradient(180deg, #1a1a1a, #2a2a2a);
+  color: #eee;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.apresentacao {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: #eee;
+}
+
+.apresentacao h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.apresentacao p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.apresentacao blockquote {
+  font-size: 1rem;
+  font-style: italic;
+  color: #aaa;
+  margin-top: 1rem;
+}
+
+ul#lista-presentes {
+  list-style-type: none;
+  padding: 0;
+  width: 90%;
   max-width: 600px;
-  margin: auto;
 }
 
 li {
   background-color: #333;
-  border: 1px solid #555;
-  border-radius: 12px;
+  margin: 10px 0;
   padding: 1rem;
-  margin-bottom: 0.8rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #00000044;
   display: flex;
-  flex-direction: column;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
-}
-
-/* Campo de texto (nome da pessoa) */
-li input[type="text"] {
-  margin-top: 0.5rem;
-  padding: 0.5rem;
-  border-radius: 6px;
-  border: 1px solid #999;
-  font-family: 'Georgia', serif;
-  background-color: #222;
-  color: #f9f9f9;
-}
-
-/* Botões: reservar, editar, etc */
-button {
-  margin-top: 0.5rem;
-  padding: 0.5rem 1rem;
-  font-family: 'Playfair Display', serif;
-  background-color: #8c7c62;
-  border: none;
-  color: white;
-  border-radius: 8px;
-  cursor: pointer;
+  justify-content: space-between;
+  align-items: center;
   transition: background-color 0.3s ease;
 }
 
-button:hover {
-  background-color: #a89d89;
+li:hover {
+  background-color: #444;
 }
+
+.nome-item {
+  color: #ffcc70;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.botoes {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+input[type="text"] {
+  padding: 0.4rem;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  font-family: 'Playfair Display', serif;
+  background-color: #222;
+  color: #eee;
+  width: 150px;
+}
+
+button {
+  padding: 0.4rem 0.8rem;
+  background-color: #ffcc70;
+  border: none;
+  border-radius: 8px;
+  color: #111;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: 'Playfair Display', serif;
+  transition: transform 0.2s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
 footer {
   text-align: center;
   padding: 1.5rem;
   font-size: 1rem;
-  color: #d66;
+  color: #f44;
   font-family: 'Playfair Display', serif;
   margin-top: 2rem;
   border-top: 1px solid #444;
+  width: 100%;
 }
