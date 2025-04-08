@@ -34,6 +34,9 @@ header p {
   font-size: 1.2rem;
   margin-bottom: 2rem;
   color: #dcdcdc;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Lista de presentes */
@@ -53,7 +56,8 @@ header p {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
+  text-align: center;
   transition: transform 0.2s ease-in-out;
 }
 
@@ -80,8 +84,10 @@ header p {
 
 /* Botões */
 .item .botoes {
+  width: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
   gap: 0.5rem;
   margin-top: 0.5rem;
@@ -91,17 +97,18 @@ header p {
   padding: 0.5rem 1.2rem;
   border: none;
   border-radius: 50px;
-  background: linear-gradient(to right, #5a5a5a, #8a8a8a);
+  background: linear-gradient(to right, #6c6c6c, #9e9e9e);
   color: white;
   cursor: pointer;
   font-family: 'Georgia', serif;
   font-size: 0.95rem;
   transition: background 0.3s;
   min-width: 90px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
 }
 
 .item button:hover {
-  background: linear-gradient(to right, #707070, #a0a0a0);
+  background: linear-gradient(to right, #808080, #b0b0b0);
 }
 
 /* Rodapé */
@@ -109,4 +116,5 @@ footer {
   margin-top: 3rem;
   color: #ccc;
   font-size: 1rem;
+  font-family: 'Georgia', serif;
 }
