@@ -1,79 +1,96 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const lista = document.getElementById("lista-presentes");
-  const database = firebase.database();
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
 
-  const data = [
-    "Batedeira", "Liquidificador", "Cafeteira", "Torradeira", "Jogo de lençóis",
-    "Jogo de lençóis", "Travesseiros", "Jogo de panela", "Fronhas avulsas", "Jogo de jantar",
-    "Jogo de facas", "Jogo de talheres", "Varal de chão", "Jogo de toalhas", "Microondas",
-    "Forno eletrônico", "Cesto de roupa", "Assadeiras (vidro)", "Edredom", "Cobre leito",
-    "Potes herméticos (vidro)", "Jogo de taças", "Petisqueira", "Potes para mantimentos", "Galheteiros",
-    "Açucareiro", "Saleiro", "Jogo de sobremesa", "Lixeira (cozinha)", "Escorredor de louça",
-    "Ferro de passar roupas", "Chaleira", "Jarra elétrica", "Panos de copa", "Porta frios",
-    "Ralador", "Porta temperos", "Mixer", "Tigelas", "Tapete bolinha para banheiro",
-    "Ventilador", "Tábua de cortes", "Boleira", "Escorredor de macarrão", "Manteigueira",
-    "Organizador de salada", "Garrafa térmica", "Forma de alumínio", "Jogo americano",
-    "Tábua de passar roupa", "Mop", "Cuia", "Descanso de panelas", "Triturador", "Organizador de talheres"
-  ];
+const firebaseConfig = {
+  apiKey: "AIzaSyAzQSqbRcIyhnDhCo0wPMM3IRFYPJbBrB8",
+  authDomain: "lista-cha.firebaseapp.com",
+  databaseURL: "https://lista-cha-default-rtdb.firebaseio.com",
+  projectId: "lista-cha",
+  storageBucket: "lista-cha.appspot.com",
+  messagingSenderId: "662121713326",
+  appId: "1:662121713326:web:e5a2d5291085dcfb0ae73f"
+};
 
-  data.forEach((item, index) => {
-    const li = document.createElement("li");
-    li.innerHTML = `
-      <span class="item-nome">${item}</span>
-      <input type="text" placeholder="Seu nome">
-      <button class="reservar">Reservar</button>
-      <button class="editar" style="display: none;">Editar</button>
-      <span class="reservado-por"></span>
-    `;
-    lista.appendChild(li);
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 
-    const input = li.querySelector("input");
-    const reservarBtn = li.querySelector(".reservar");
-    const editarBtn = li.querySelector(".editar");
-    const reservadoPor = li.querySelector(".reservado-por");
-    const itemRef = database.ref("reservas/" + index);
-    let editando = false;
+const listaPresentes = [
+  "Batedeira", "Liquidificador", "Cafeteira", "Torradeira",
+  "Jogo de lençóis", "Jogo de lençóis", "Travesseiros", "Jogo de panela",
+  "Fronhas avulsas", "Jogo de jantar", "Jogo de facas", "Jogo de talheres",
+  "Varal de chão", "Jogo de toalhas", "Microondas", "Forno eletrônico",
+  "Cesto de roupa", "Assadeiras (vidro)", "Edredom", "Cobre leito",
+  "Potes herméticos (vidro)", "Jogo de taças", "Petisqueira", "Potes para mantimentos",
+  "Galheteiros", "Açucareiro", "Saleiro", "Jogo de sobremesa",
+  "Lixeira (cozinha)", "Escorredor de louça", "Ferro de passar roupas", "Chaleira",
+  "Jarra elétrica", "Panos de copa", "Porta frios", "Ralador",
+  "Porta temperos", "Mixer", "Tigelas", "Tapete bolinha para banheiro",
+  "Ventilador", "Tábua de cortes", "Boleira", "Escorredor de macarrão",
+  "Manteigueira", "Organizador de salada", "Garrafa térmica", "Forma de alumínio",
+  "Jogo americano", "Tábua de passar roupa", "Mop", "Cuia",
+  "Descanso de panelas", "Triturador", "Organizador de talheres"
+];
 
-    itemRef.on("value", (snapshot) => {
-      const valor = snapshot.val();
-      if (valor && valor.nome && valor.nome.trim() !== "") {
-        input.value = valor.nome;
-        input.disabled = true;
-        reservarBtn.style.display = "none";
-        editarBtn.style.display = "inline";
-        reservadoPor.textContent = `Reservado por: ${valor.nome}`;
-      } else {
-        itemRef.remove(); // remove entradas vazias
-        input.value = "";
-        input.disabled = false;
-        reservarBtn.style.display = "inline";
-        editarBtn.style.display = "none";
-        reservadoPor.textContent = "";
-      }
-    });
+const listaContainer = document.getElementById("lista");
 
-    reservarBtn.addEventListener("click", () => {
-      const nome = input.value.trim();
-      if (nome !== "") {
-        itemRef.set({ nome });
-      }
-    });
+function renderizarLista(dadosReservas = {}) {
+  listaContainer.innerHTML = "";
 
-    editarBtn.addEventListener("click", () => {
-      if (!editando) {
-        input.disabled = false;
-        input.focus();
-        editarBtn.textContent = "Salvar";
-        editando = true;
-      } else {
-        const novoNome = input.value.trim();
-        if (novoNome !== "") {
-          itemRef.set({ nome: novoNome });
-          input.disabled = true;
-          editarBtn.textContent = "Editar";
-          editando = false;
+  listaPresentes.forEach((item, index) => {
+    const reserva = dadosReservas[index] || {};
+    const reservado = reserva.nome && reserva.nome.trim() !== "";
+
+    const itemDiv = document.createElement("div");
+    itemDiv.className = "item";
+
+    const nomeItem = document.createElement("span");
+    nomeItem.textContent = item;
+    nomeItem.className = "item-nome";
+
+    const inputNome = document.createElement("input");
+    inputNome.type = "text";
+    inputNome.placeholder = "Seu nome";
+    inputNome.value = reserva.nome || "";
+    inputNome.disabled = reservado;
+
+    const botao = document.createElement("button");
+    botao.textContent = reservado ? "Editar" : "Reservar";
+
+    botao.addEventListener("click", () => {
+      if (reservado) {
+        inputNome.disabled = false;
+        botao.textContent = "Salvar";
+        reservado = false;
+      } else if (botao.textContent === "Salvar") {
+        const nome = inputNome.value.trim();
+        if (nome === "") {
+          alert("Por favor, digite seu nome para reservar.");
+          return;
         }
+        set(ref(database, "reservas/" + index), { nome });
+        inputNome.disabled = true;
+        botao.textContent = "Editar";
+      } else {
+        const nome = inputNome.value.trim();
+        if (nome === "") {
+          alert("Por favor, digite seu nome para reservar.");
+          return;
+        }
+        set(ref(database, "reservas/" + index), { nome });
+        inputNome.disabled = true;
+        botao.textContent = "Editar";
       }
     });
+
+    itemDiv.appendChild(nomeItem);
+    itemDiv.appendChild(inputNome);
+    itemDiv.appendChild(botao);
+    listaContainer.appendChild(itemDiv);
   });
+}
+
+// Escuta o Firebase e atualiza a lista em tempo real
+onValue(ref(database, "reservas"), (snapshot) => {
+  const data = snapshot.val() || {};
+  renderizarLista(data);
 });
