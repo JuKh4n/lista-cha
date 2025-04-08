@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const lista = document.getElementById("lista-presentes");
   const database = firebase.database();
 
-  // Lista de presentes direto no código
   const data = [
     "Batedeira",
     "Liquidificador",
@@ -66,30 +65,55 @@ document.addEventListener("DOMContentLoaded", function () {
     li.innerHTML = `
       <span class="item-nome">${item}</span>
       <input type="text" placeholder="Seu nome">
-      <button>Reservar</button>
+      <button class="reservar">Reservar</button>
+      <button class="editar" style="display: none;">Editar</button>
       <span class="reservado-por"></span>
     `;
     lista.appendChild(li);
 
     const input = li.querySelector("input");
-    const button = li.querySelector("button");
+    const reservarBtn = li.querySelector(".reservar");
+    const editarBtn = li.querySelector(".editar");
     const reservadoPor = li.querySelector(".reservado-por");
 
     const itemRef = database.ref("reservas/" + index);
+
     itemRef.on("value", (snapshot) => {
       const valor = snapshot.val();
       if (valor) {
-        reservadoPor.textContent = `Reservado por: ${valor.nome}`;
+        input.value = valor.nome;
         input.disabled = true;
-        button.disabled = true;
+        reservarBtn.style.display = "none";
+        editarBtn.style.display = "inline";
+        reservadoPor.textContent = `Reservado por: ${valor.nome}`;
+      } else {
+        input.value = "";
+        input.disabled = false;
+        reservarBtn.style.display = "inline";
+        editarBtn.style.display = "none";
+        reservadoPor.textContent = "";
       }
     });
 
-    button.addEventListener("click", () => {
+    reservarBtn.addEventListener("click", () => {
       const nome = input.value.trim();
       if (nome !== "") {
         itemRef.set({ nome: nome });
       }
+    });
+
+    editarBtn.addEventListener("click", () => {
+      input.disabled = false;
+      input.focus();
+      editarBtn.textContent = "Salvar";
+      editarBtn.onclick = () => {
+        const nomeEditado = input.value.trim();
+        if (nomeEditado !== "") {
+          itemRef.set({ nome: nomeEditado });
+          input.disabled = true;
+          editarBtn.textContent = "Editar";
+        }
+      };
     });
   });
 });
