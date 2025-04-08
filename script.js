@@ -32,16 +32,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const editarBtn = li.querySelector(".editar");
     const reservadoPor = li.querySelector(".reservado-por");
     const itemRef = database.ref("reservas/" + index);
+    let editando = false;
 
     itemRef.on("value", (snapshot) => {
       const valor = snapshot.val();
-      if (valor && valor.nome) {
+      if (valor && valor.nome && valor.nome.trim() !== "") {
         input.value = valor.nome;
         input.disabled = true;
         reservarBtn.style.display = "none";
         editarBtn.style.display = "inline";
         reservadoPor.textContent = `Reservado por: ${valor.nome}`;
       } else {
+        itemRef.remove(); // remove entradas vazias
         input.value = "";
         input.disabled = false;
         reservarBtn.style.display = "inline";
@@ -58,18 +60,20 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     editarBtn.addEventListener("click", () => {
-      input.disabled = false;
-      input.focus();
-      editarBtn.textContent = "Salvar";
-
-      editarBtn.onclick = () => {
+      if (!editando) {
+        input.disabled = false;
+        input.focus();
+        editarBtn.textContent = "Salvar";
+        editando = true;
+      } else {
         const novoNome = input.value.trim();
         if (novoNome !== "") {
           itemRef.set({ nome: novoNome });
           input.disabled = true;
           editarBtn.textContent = "Editar";
+          editando = false;
         }
-      };
+      }
     });
   });
 });
