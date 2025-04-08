@@ -79,19 +79,29 @@ header p {
 }
 
 /* Botões */
+.item .botoes {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
 .item button {
-  padding: 0.4rem 1rem;
+  padding: 0.5rem 1.2rem;
   border: none;
-  border-radius: 8px;
-  background: linear-gradient(to right, #555, #777);
+  border-radius: 50px;
+  background: linear-gradient(to right, #5a5a5a, #8a8a8a);
   color: white;
   cursor: pointer;
   font-family: 'Georgia', serif;
   font-size: 0.95rem;
+  transition: background 0.3s;
+  min-width: 90px;
 }
 
 .item button:hover {
-  background: linear-gradient(to right, #666, #999);
+  background: linear-gradient(to right, #707070, #a0a0a0);
 }
 
 /* Rodapé */
