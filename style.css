@@ -1,88 +1,97 @@
-body {
+/* Reset básico */
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
   font-family: 'Georgia', serif;
-  background: linear-gradient(to bottom, #1a1a1a, #2c2c2c);
-  color: #f5f5f5;
-  display: flex;
-  flex-direction: column;
+  background: linear-gradient(to bottom, #121212, #1a1a1a);
+  color: #f0f0f0;
+  padding: 40px 20px;
   min-height: 100vh;
 }
 
-main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2rem;
+/* Cabeçalho */
+header {
   text-align: center;
+  margin-bottom: 30px;
 }
 
 h1 {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  color: #ffffff;
 }
 
-.frase-topo {
+p.subtitulo {
+  font-size: 1.1rem;
+  color: #cccccc;
+  margin-bottom: 10px;
   font-style: italic;
-  font-size: 1.1rem;
-  margin-bottom: 1.5rem;
+}
+
+blockquote {
+  font-size: 1rem;
+  color: #999;
+  font-style: italic;
+}
+
+/* Lista de itens */
+ul {
+  list-style: none;
+  padding: 0;
   max-width: 600px;
+  margin: 0 auto;
 }
 
-p {
-  margin: 0.5rem 0;
+li {
+  background: #1f1f1f;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
-#lista {
-  width: 100%;
-  max-width: 600px;
-  margin-top: 2rem;
-}
-
-.item {
-  background-color: #333;
-  padding: 1rem;
-  border-radius: 10px;
-  margin-bottom: 1rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.item h3 {
-  margin: 0;
-  font-size: 1.1rem;
-  color: #ffd700;
+.nome-presente {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #e2b714;
 }
 
 input[type="text"] {
-  padding: 0.5rem;
-  border-radius: 5px;
-  border: none;
   width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background-color: #2c2c2c;
+  color: #fff;
 }
 
 button {
-  padding: 0.5rem;
+  margin-top: 10px;
+  padding: 10px 16px;
   border: none;
-  border-radius: 5px;
-  background-color: #ffd700;
-  color: #000;
+  border-radius: 8px;
+  background: linear-gradient(to right, #801336, #c72c41);
+  color: white;
+  font-size: 0.95rem;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background 0.3s ease;
 }
 
 button:hover {
-  background-color: #e6c200;
+  background: linear-gradient(to right, #c72c41, #801336);
 }
 
+/* Rodapé */
 footer {
-  background-color: #1a1a1a;
-  padding: 1rem;
   text-align: center;
+  margin-top: 60px;
+  color: #888;
   font-size: 0.9rem;
-  color: #ccc;
-  border-top: 1px solid #444;
 }
