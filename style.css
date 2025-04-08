@@ -1,118 +1,88 @@
-/* Reset básico */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 body {
+  margin: 0;
   font-family: 'Georgia', serif;
-  background: linear-gradient(to bottom, #1e1e1e, #2d2d2d);
-  color: #f0f0f0;
-  min-height: 100vh;
+  background: linear-gradient(to bottom, #1a1a1a, #2c2c2c);
+  color: #f5f5f5;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 20px;
-}
-
-header {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-header h1 {
-  font-size: 2rem;
-  margin-bottom: 10px;
-}
-
-header p {
-  font-family: 'Dancing Script', cursive;
-  font-size: 1.2rem;
-  color: #cccccc;
-  margin-bottom: 20px;
+  min-height: 100vh;
 }
 
 main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  text-align: center;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.frase-topo {
+  font-style: italic;
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  max-width: 600px;
+}
+
+p {
+  margin: 0.5rem 0;
+}
+
+#lista {
   width: 100%;
   max-width: 600px;
+  margin-top: 2rem;
 }
 
 .item {
-  background-color: #2e2e2e;
-  border: 1px solid #444;
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 15px;
+  background-color: #333;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  gap: 0.5rem;
 }
 
 .item h3 {
-  color: #ffffff;
+  margin: 0;
   font-size: 1.1rem;
+  color: #ffd700;
 }
 
-.item input[type="text"] {
-  padding: 8px;
-  border-radius: 8px;
+input[type="text"] {
+  padding: 0.5rem;
+  border-radius: 5px;
   border: none;
-  background-color: #444;
-  color: #fff;
+  width: 100%;
 }
 
-.item button {
-  background: linear-gradient(to right, #666, #999);
-  color: #fff;
-  padding: 8px;
+button {
+  padding: 0.5rem;
   border: none;
-  border-radius: 8px;
+  border-radius: 5px;
+  background-color: #ffd700;
+  color: #000;
+  font-weight: bold;
   cursor: pointer;
-  font-family: 'Georgia', serif;
-  font-size: 0.95rem;
+  transition: background-color 0.3s ease;
 }
 
-.item button:hover {
-  background: linear-gradient(to right, #555, #888);
+button:hover {
+  background-color: #e6c200;
 }
 
 footer {
+  background-color: #1a1a1a;
+  padding: 1rem;
   text-align: center;
-  margin-top: 40px;
-  font-size: 1rem;
-  color: #bbb;
-  font-family: 'Georgia', serif;
+  font-size: 0.9rem;
+  color: #ccc;
+  border-top: 1px solid #444;
 }
-
-/* Frase de destaque */
-#frase-thorin {
-  text-align: center;
-  font-family: 'Dancing Script', cursive;
-  font-size: 1.4rem;
-  margin-top: 10px;
-  margin-bottom: 40px;
-  color: #dddddd;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* Ajustes para responsividade */
-@media (max-width: 600px) {
-  .item {
-    padding: 12px;
-  }
-
-  header h1 {
-    font-size: 1.6rem;
-  }
-
-  #frase-thorin {
-    font-size: 1.1rem;
-  }
-}
-
-/* Importar fontes elegantes */
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
