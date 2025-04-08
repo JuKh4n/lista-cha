@@ -64,3 +64,12 @@ button {
 button:hover {
   background-color: #a89d89;
 }
+footer {
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 1rem;
+  color: #d66;
+  font-family: 'Playfair Display', serif;
+  margin-top: 2rem;
+  border-top: 1px solid #444;
+}
